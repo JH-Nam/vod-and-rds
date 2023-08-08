@@ -12,6 +12,20 @@ resource "aws_s3_bucket_versioning" "source_versioning" {
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "bucket-config" {
+  bucket = aws_s3_bucket.source_bucket.id
+
+  rule {
+    id = "1day lifecycle"
+
+    expiration {
+      days = 1
+    }
+
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_notification" "bucket_notification" {
   bucket = local.source_bucket_name
 
